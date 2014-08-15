@@ -15,10 +15,15 @@
 # limitations under the License.
 #
 import webapp2
+import RSSUtil
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+    	entry = RSSUtil.fetchRSS()
+        self.response.write(entry.title)
+        self.response.write(entry.link)
+        self.response.write(entry.date)
 
 application = webapp2.WSGIApplication([
     ('/', MainHandler)
