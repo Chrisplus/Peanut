@@ -16,15 +16,26 @@
 #
 import webapp2
 import RSSUtil
+import time
+import logging
 
 
 class MainHandler(webapp2.RequestHandler):
-    def get(self):
-    	entry = RSSUtil.fetchRSS()
-        self.response.write(entry.title)
-        self.response.write(entry.link)
-        self.response.write(entry.date)
+
+	def __init__(self, request, response):
+		# Init system date
+		#self.NEW_DATE = time.localtime()
+		self.initialize(request, response)
+		self.NEW_DATE = time.strptime("17 AUG 14", "%d %b %y")
+		self.rss = None
+
+	def get(self):
+		self.rss, self.NEW_DATE = RSSUtil.fetchRSS(self.request.url, self.NEW_DATE)
+		self.response.headers['Content-Type'] = 'text/xml'
+		self.response.write(self.rss)
+		logging.info("Response Successfully\t" + "Set New Date to " + time.strftime("%a, %d %b %Y %H:%M:%S +0000", self.NEW_DATE))
+
 
 application = webapp2.WSGIApplication([
-    ('/', MainHandler)
-], debug=True)
+    ('/rss.xml', MainHandler)
+], debug=False)

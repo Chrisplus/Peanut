@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <body>
+    <h2>{{ movietitle }}</h2>
+    <ul>
+      <li>Genre: {{ genre }}</li>
+      <li>Date: {{ date  }}</li>
+      <li>Director: {{ director }}</li>
+      <li>Actors: {{ actors }}</li>
+      <li>IMDB Rating: {{ imdbRating }}</li>
+      <li>Douban Rating: {{ doubanRating }}</li>
+      <li>IMDB Link: {{ imdbLink }}</li>
+      <li>Douban Link: {{ doubanLink }}</li>
+    </ul>
+
+    <h3>Summary</h3>
+    <p>"{{ summary }}"</p>
+  </body>
+</html>
+{% endautoescape %}

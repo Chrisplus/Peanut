@@ -22,15 +22,20 @@ def splitLinkName(magName):
 
 	titleSet = ""
 	year = ""
+	splitspot = 0
+	zhTitle = ""
 	for attr in nameArray:
 		if attr.isdigit():
 			year = attr
+			zhTitle = nameArray[splitspot + 1]
 			break
 		else:
 			titleSet = titleSet + attr + " "
-	title = titleSet.strip(" ")
+		splitspot = splitspot + 1
 
-	return title,year
+	title = titleSet.strip(" ")
+	zhTitle = zhTitle.strip(" ")
+	return title,year, zhTitle
 
 
 def fetchFromIMDB(movieName, movieYear):
@@ -39,6 +44,7 @@ def fetchFromIMDB(movieName, movieYear):
 	# t is title
 	# y is year
 	if movieName is None or not movieName or movieYear is None or not movieYear:
+		print "Error when Fetch from IMDB"
 		pass
 
 	param = {}
@@ -61,7 +67,7 @@ def parseIMDB(content):
 	try:
 		jsonData = json.loads(content)
 	except ValueError:
-		return -1
+		return [-1]
 
 	rep = jsonData['Response']
 	date = ""
@@ -84,13 +90,13 @@ def parseIMDB(content):
 
 		return movieID, date, genre, director, actors, rating, votes, plot
 	else:
-		return -1
+		return [-1]
 
 def parseDouban(content):
 	try:
 		jsonData = json.loads(content)
 	except ValueError:
-		return -1
+		return [-1]
 	try:
 		code = jsonData['code']
 	except KeyError:
@@ -100,13 +106,10 @@ def parseDouban(content):
 		return doubanLink, summary, doubanRate
 
 
-
-
-
-if __name__ == "__main__":
-	testName = u"Night.at.the.Museum.2006.博物馆奇妙夜.双语字幕.国英音轨.HR-HDTV.AC3.1024X552.x264.mkv【Auto】"
-	title,year = splitLinkName(testName)
-	movieID, date, genre, director, actors, rating, votes, plot = fetchFromIMDB(title, year)
-	print movieID, date, genre, director, actors, rating, votes
-	print fetchFromDouban(movieID)
+# if __name__ == "__main__":
+# 	testName = u"Night.at.the.Museum.2006.博物馆奇妙夜.双语字幕.国英音轨.HR-HDTV.AC3.1024X552.x264.mkv【Auto】"
+# 	title,year = splitLinkName(testName)
+# 	movieID, date, genre, director, actors, rating, votes, plot = fetchFromIMDB(title, year)
+# 	print movieID, date, genre, director, actors, rating, votes
+# 	print fetchFromDouban(movieID)
 

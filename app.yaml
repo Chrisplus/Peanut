@@ -1,5 +1,5 @@
-application: peanut
-version: 1
+application: magnetpeanut
+version: 1-4
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -14,4 +14,6 @@ handlers:
 
 libraries:
 - name: webapp2
+  version: latest
+- name: jinja2
   version: latest

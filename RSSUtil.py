@@ -2,12 +2,29 @@
 # -*- coding: utf-8 -*-
 
 import feedparser
+from feedformatter import Feed as FeedFormatter
 import time
+import os
+import jinja2
+import MovieUtil
 
 FEED_URL = "http://oabt.org/rss.php?cid=6"
 
+PEANUT_TITLE = "Peanut Movie RSS"
+PEANUT_URL = os.environ['HTTP_HOST'] + "/rss.xml"
+PEANUT_AUTHOR = "Chrisplus"
+PEANUT_DESCRIPTION = ""
 
-def fetchRSS(newDate):
+PEANUT_UNKNOW = "Sorry, Peanut cannot find this movie"
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+
+def fetchRSS(ref, newDate):
+
+	print PEANUT_URL
 
 	btFeeder = feedparser.parse(FEED_URL)
 
@@ -23,31 +40,63 @@ def fetchRSS(newDate):
 			break
 
 	if newFeed is not None and len(newFeed) > 0:
-		wrapRSS(newFeed)
-		NEW_DATE = newFeed[0].published_parsed 
+		return wrapRSS(newFeed), newFeed[0].published_parsed
+	else:
+		return None, newDate
 
-	print len(newFeed)
-def wrapRSS(entry):
-	pass
+def wrapRSS(entries):
+	newFeed = initFeed()
+
+	for entry in entries:
+		item = {}
+		item["title"] = entry.title
+		item["link"] = entry.link
+		item["pubDate"] = time.localtime()
+		item["guid"] = str(hash(entry.title))
+		item["description"] = render(entry.title)
+		newFeed.items.append(item)
+
+	return newFeed.format_rss2_string()
 
 def compareDate(t1, t2):
 	return time.mktime(t1) - time.mktime(t2) > 0
 
-class RSSEntry:
-	
-	def __init__(self):
-		self.title = ""
-		self.link = ""
-		self.date = ""
-	def setTitle(self, title):
-		self.title = title
+def initFeed():
+	newFeed = FeedFormatter()
+	newFeed.feed['title'] = PEANUT_TITLE
+	newFeed.feed["link"] = PEANUT_URL
+	newFeed.feed["author"] = PEANUT_AUTHOR
+	newFeed.feed["description"] = PEANUT_DESCRIPTION
+	return newFeed
 
-	def setLink(self, link):
-		self.link = link
+def render(title):
+	realTitle,year, zhTitle = MovieUtil.splitLinkName(title)
 
-	def setDate(self, date):
-		self.date = date
+	movieInfo = MovieUtil.fetchFromIMDB(realTitle, year)
+
+	if len(movieInfo) > 1:
+		movieID, date, genre, director, actors, rating, votes, plot = MovieUtil.fetchFromIMDB(realTitle, year)
+		doubanLink, summary, doubanRate = MovieUtil.fetchFromDouban(movieID)
+	else:
+		movieID, date, genre, director, actors, rating, votes, plot,doubanLink, summary, doubanRate = [PEANUT_UNKNOW] * 11
+
+	template_values = {
+		'movietitle' : zhTitle + "\t" + realTitle + "\t" + year,
+		'genre' : genre,
+		'date' : date,
+		'director' : director,
+		'actors' : actors,
+		'imdbRating' : rating,
+		'doubanRating' : doubanRate,
+		'imdbLink' : movieID,
+		'doubanLink' : doubanLink,
+		'summary' : summary}
+
+	template = JINJA_ENVIRONMENT.get_template('description.html')
+	return template.render(template_values)
+
+
 
 if __name__ == "__main__":
-	
+	NEW_DATE = time.strptime("15 AUG 14", "%d %b %y") 
 	fetchRSS(NEW_DATE)
