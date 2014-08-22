@@ -11,62 +11,84 @@ class PeanutMovie:
 		self.genre = ""
 		self.link = ""
 		self.post = ""
-		director = None
-		actors = []
+		self.casts = []
+		self.coutry = ""
+		self.summary = ""
+		self.director = None
+		self.ratingcount = ""
+
+	def setratingcount(self, ct):
+		self.ratingcount = ct
+
+	def setSummary(self, summ):
+		self.summary = summ
 
 	def setzhTitle(self, zhtitle):
 		self.zhtitle = zhtitle
-		return self
+
 
 	def setenTitle(self, enTitle):
-		self.entitle = entitle
-		return self
+		self.entitle = enTitle
+
 
 	def setYear(self, year):
 		self.year = year
-		return self
+
 
 	def setRating(self, rating):
 		self.rating = rating
-		return self
+
+
 
 	def setgenre(self, genre):
 		if genre is None:
 			self.genre = "Unknown"
 		else:
 			self.genre = ",".join(genre)
-		return self
+		# return self
+
+	def setCountry(self, country):
+		if country is None:
+			self.country = "Unknown"
+		else:
+			self.country = ",".join(country)
+		# return self
 
 	def setLink(self, link):
 		self.link = link
-		return self
+		# return self
 
 	def setPost(self, post):
 		self.post = post
-		return self
+		# return self
 
-	def setDirecotr(self, name, enName, avatar, link):
-		self.director = Actor(name, enName, avatar, link)
-		return self
+	def setDirector(self, director):
+		self.director = Actor(director)
+		# return self
 
-	def setActors(self, names, enNames, avatars, links):
-		if names is None or enNames is None or avatars is None or links is None:
+	def setActors(self, actors):
+		# if names is None or enNames is None or avatars is None or links is None:
+		# 	# ADD the anonymous avatar and link
+		# 	self.actors.append(Actor("Unknown", "Unknown" ,"Unknown", "Unknown"))
+		# else:
+		# 	i = 0
+		# 	while i < len(names)
+		# 		self.actors.append(Actor(names[i], enNames[i], avatars[i], links[i]))
+		# 		i = i + 1
+		# return self
+		if actors is None:
 			# ADD the anonymous avatar and link
-			self.actors.append(Actor("Unknown", "Unknown" ,"Unknown", "Unknown"))
+			self.casts.append(Actor({name : "Unknown", avatars : {medium : Unknown}, alt: Unknown}))
 		else:
-			i = 0
-			while i < len(names)
-				self.actors.append(Actor(names[i], enNames[i], avatars[i], links[i]))
-				i = i + 1
-		return self
+			for actor in actors:
+				self.casts.append(Actor(actor))
 
 	def build(self):
 		# ADD check procedure
 		return self
-		
+
 class Actor():
-	def __init__(self, name, enName, avatar, link):
-		self.name = name
-		self.enName = enName
-		self.avatar = avatar
-		self.link = link
+	def __init__(self, actor):
+		self.name = actor["name"]
+		self.avatar = actor["avatars"]["medium"]
+		self.link = actor["alt"]

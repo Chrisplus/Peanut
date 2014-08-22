@@ -1,43 +1,87 @@
 <!DOCTYPE html>
 {% autoescape true %}
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-<!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-  </head>
-
-  <body>
-    <div class="jumbotron">
-        <h1>Hello, world! <small>en title</small></h1>
-        <p>
-          This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
-        </p>
-        <p>
-          <a href="#" target="_blank" class="btn btn-lg btn-success">Douban</a>
-          <a href="#" target="_blank" class="btn btn-lg btn-warning">IMDB</a>
-          <a href="#" target="_blank" class="btn btn-lg btn-info">Magnet</a>
-        </p>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <img src="http://img3.douban.com/view/movie_poster_cover/lpst/public/p480747492.jpg" class="img-rounded img-responsive">
-        </div>
-
-        <div class="col-md-8">
-
-        </div>
+   <head>
+      <meta charset="utf-8">
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+   </head>
+   <body>
+      <div class="jumbotron">
+         <h1>{{ html_title }}<small>{{ html_en_title}}</small></h1>
+         <p>
+            {{ html_summary }}
+         </p>
+         <p>
+            <a href="{{ html_douban_link }}" target="_blank" class="btn btn-lg btn-success">Douban</a>
+            <a href="{{ html_magnet_link }}" target="_blank" class="btn btn-lg btn-info">Magnet</a>
+            <a href="{{ html_netpan_link }}" target="_blank" class="btn btn-lg btn-warning">Watch</a>
+         </p>
       </div>
-    </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-3">
+               <img src="{{ html_post }}" class="img-rounded img-responsive">
+            </div>
+            <div class="col-md-4">
+               <ul class="list-group">
+                  <li class="list-group-item"><span class="glyphicon glyphicon-film"></span><b>    Title</b>: {{ html_title }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-calendar"></span><b>    Year</b>: {{ html_year }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-map-marker"></span><b>    Country</b>: {{ html_country }}}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-tag"></span><b>    Genre</b>: {{ html_genre }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-facetime-video"></span><b>    Director</b>: {{ html_director_name }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-user"></span><b>    Casts</b>: {{ html_casts }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-star"></span><b>  Rating</b>: {{ html_rating }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-copyright-mark"></span><b>  RatingCount</b>: {{ html_ratingcount }}</li>
+               </ul>
+            </div>
+            <div class="col-md-4">
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="thumbnail">
+                        <img src="{{ html_director_avatar}}" class="img-circle img-responsive">
+                        <div class="caption text-center">
+                           <a href="{{html_director_link }}"><h7>{{ html_director_name }}</h7></a>            
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="thumbnail">
+                        <img src="{{ html_c1_avatar}}" class="img-circle img-responsive">
+                        <div class="caption text-center">
+                           <a href="{{html_c1_link }}"><h7>{{ html_c1_name }}</h7></a>            
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="thumbnail">
+                        <img src="{{ html_c2_avatar}}" class="img-circle img-responsive">
+                        <div class="caption text-center">
+                           <a href="{{html_c2_link }}"><h7>{{ html_c2_name }}</h7></a>            
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="thumbnail">
+                        <img src="{{ html_c3_avatar}}" class="img-circle img-responsive">
+                        <div class="caption text-center">
+                           <a href="{{html_c3_link }}"><h7>{{ html_c3_name }}</h7></a>            
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
 
-  </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
+         </div>
+      </div>
+   </body>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </html>
 {% endautoescape %}

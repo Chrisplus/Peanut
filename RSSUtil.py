@@ -7,6 +7,7 @@ import time
 import os
 import jinja2
 import MovieUtil
+import Movie_v2
 
 FEED_URL = "http://oabt.org/rss.php?cid=6"
 
@@ -53,7 +54,7 @@ def wrapRSS(entries):
 		item["link"] = entry.link
 		item["pubDate"] = time.localtime()
 		item["guid"] = str(hash(entry.title))
-		item["description"] = render(entry.title)
+		item["description"] = render_v2(entry.title, entry.link)
 		newFeed.items.append(item)
 
 	return newFeed.format_rss2_string()
@@ -95,6 +96,62 @@ def render(title):
 	template = JINJA_ENVIRONMENT.get_template('description.html')
 	return template.render(template_values)
 
+def render_v2(rawTitle, maglink):
+	peanut = Movie_v2.searchHelper(rawTitle)
+
+	if peanut is None:
+		# add something
+		return PEANUT_UNKNOW
+
+		# self.zhtitle = ""
+		# self.entitle = ""
+		# self.year = ""
+		# self.rating = ""
+		# self.genre = ""
+		# self.link = ""
+		# self.post = ""
+		# self.casts = []
+		# self.coutry = ""
+		# self.summary = ""
+		# self.director = None
+
+	names = []
+	for actor in peanut.casts:
+		names.append(actor.name)
+
+	template_values = {
+		'html_title' : peanut.zhtitle,
+		'html_en_title' : peanut.rntitle,
+		'html_summary' : peanut.summary,
+		'html_douban_link' : peanut.link,
+		'html_magnet_link' : maglink,
+		'html_netpan_link' : "#",
+		'html_year' : peanut.year,
+		'html_country' : peanut.coutry,
+		'html_genre' : peanut.genre,
+		'html_director' : peanut.director.name,
+		'html_casts' : ",".join(names),
+		'html_rating' : peanut.rating,
+		'html_ratingcount' : peanut.ratingcount,
+		'html_director_avatar' : peanut.director.avatar,
+		'html_director_link' : peanut.director.link,
+
+		'html_c1_avatar' : peanut.casts[0].avatar,
+		'html_c1_name' : peanut.casts[0].name,
+		'html_c1_link' : peanut.casts[0].link,
+
+		'html_c2_avatar' : peanut.casts[1].avatar,
+		'html_c2_name' : peanut.casts[1].name,
+		'html_c2_link' : peanut.casts[1].link,
+
+		'html_c3_avatar' : peanut.casts[2].avatar,
+		'html_c3_name' : peanut.casts[2].name,
+		'html_c4_link' : peanut.casts[2].link,
+
+	}
+
+	template = JINJA_ENVIRONMENT.get_template('detail.html')
+	return template.render(template_values)
 
 
 if __name__ == "__main__":
