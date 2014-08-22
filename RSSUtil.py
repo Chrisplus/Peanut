@@ -8,6 +8,7 @@ import os
 import jinja2
 import MovieUtil
 import Movie_v2
+import logging
 
 FEED_URL = "http://oabt.org/rss.php?cid=6"
 
@@ -51,6 +52,7 @@ def wrapRSS(entries):
 	for entry in entries:
 		item = {}
 		item["title"] = entry.title
+		logging.info("=============== " + entry.title + " =========")
 		item["link"] = entry.link
 		item["pubDate"] = time.localtime()
 		item["guid"] = str(hash(entry.title))
@@ -121,7 +123,7 @@ def render_v2(rawTitle, maglink):
 
 	template_values = {
 		'html_title' : peanut.zhtitle,
-		'html_en_title' : peanut.rntitle,
+		'html_en_title' : peanut.entitle,
 		'html_summary' : peanut.summary,
 		'html_douban_link' : peanut.link,
 		'html_magnet_link' : maglink,
@@ -129,7 +131,7 @@ def render_v2(rawTitle, maglink):
 		'html_year' : peanut.year,
 		'html_country' : peanut.coutry,
 		'html_genre' : peanut.genre,
-		'html_director' : peanut.director.name,
+		'html_director_name' : peanut.director.name,
 		'html_casts' : ",".join(names),
 		'html_rating' : peanut.rating,
 		'html_ratingcount' : peanut.ratingcount,
@@ -147,6 +149,8 @@ def render_v2(rawTitle, maglink):
 		'html_c3_avatar' : peanut.casts[2].avatar,
 		'html_c3_name' : peanut.casts[2].name,
 		'html_c4_link' : peanut.casts[2].link,
+
+		'html_post' : peanut.post
 
 	}
 

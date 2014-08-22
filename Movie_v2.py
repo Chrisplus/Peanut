@@ -42,7 +42,7 @@ def splitLinkName(magName):
 def searchFromDouban(zhTitle, title, year):
 	if zhTitle is None or title is None or year is None:
 		return None
-	
+	zhTitle = zhTitle.encode('utf-8')
 	param = {}
 	param.update({'q' : zhTitle})
 
@@ -68,6 +68,9 @@ def parseDouban_v2(content, year):
 			correlated = can
 			break
 
+	if correlated is None:
+		return None
+		
 	cont = urllib2.urlopen(DOUBAN_API + DOUBAN_DETAIL + correlated["id"]).read()
 	try:
 		jd = json.loads(cont)

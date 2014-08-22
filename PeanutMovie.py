@@ -90,5 +90,10 @@ class PeanutMovie:
 class Actor():
 	def __init__(self, actor):
 		self.name = actor["name"]
-		self.avatar = actor["avatars"]["medium"]
+
+		if actor["avatars"] is None:
+			self.avatar = "./images/man.png"
+		else: 
+			self.avatar = actor["avatars"]["medium"]
+		
 		self.link = actor["alt"]

@@ -1,5 +1,5 @@
 application: magnetpeanut
-version: 1-4
+version: 2-0
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -12,8 +12,8 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
 
-- url: /bootstrap
-  static_dir: bootstrap
+- url: /images
+  static_dir: images
 
 - url: .*
   script: main.application
