@@ -26,7 +26,7 @@ class MainHandler(webapp2.RequestHandler):
 		# Init system date
 		#self.NEW_DATE = time.localtime()
 		self.initialize(request, response)
-		self.NEW_DATE = time.strptime("21 AUG 14", "%d %b %y")
+		self.NEW_DATE = time.strptime("24 AUG 14", "%d %b %y")
 		self.rss = None
 
 	def get(self):

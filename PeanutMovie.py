@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+Unknown = "Unknown"
+
 class PeanutMovie:
 
 	def __init__(self):
@@ -63,7 +65,10 @@ class PeanutMovie:
 		# return self
 
 	def setDirector(self, director):
-		self.director = Actor(director)
+		if director is None:
+			self.director = Actor({"name" : Unknown, "avatars" : {"medium" : Unknown}, "alt": Unknown})
+		else:
+			self.director = Actor(director)
 		# return self
 
 	def setActors(self, actors):
@@ -78,7 +83,7 @@ class PeanutMovie:
 		# return self
 		if actors is None:
 			# ADD the anonymous avatar and link
-			self.casts.append(Actor({name : "Unknown", avatars : {medium : Unknown}, alt: Unknown}))
+			self.casts.append(Actor({"name" : Unknown, "avatars" : {"medium" : Unknown}, "alt": Unknown}))
 		else:
 			for actor in actors:
 				self.casts.append(Actor(actor))

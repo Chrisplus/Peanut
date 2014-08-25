@@ -88,7 +88,10 @@ def parseDouban_v2(content, year):
 	peanut.setLink(jd["alt"])
 	peanut.setPost(jd["images"]["large"])
 
-	direcor = jd["directors"][0]
+	if jd["directors"] is None or len(jd["directors"]) == 0:
+		direcor = None
+	else:
+		direcor = jd["directors"][0]
 	peanut.setDirector(direcor)
 	peanut.setActors(jd["casts"])
 	peanut.setCountry(jd["countries"])
