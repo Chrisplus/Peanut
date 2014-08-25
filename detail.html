@@ -10,12 +10,12 @@
    </head>
    <body>
       <div class="jumbotron">
-         <h1>{{ html_title }}<small>{{ html_en_title}}</small></h1>
+         <h1>{{ peanut.zhtitle }}<small>{{ peanut.entitle }}</small></h1>
          <p>
-            {{ html_summary }}
+            {{ peanut.summary }}
          </p>
          <p>
-            <a href="{{ html_douban_link }}" target="_blank" class="btn btn-lg btn-success">Douban</a>
+            <a href="{{ peanut.link }}" target="_blank" class="btn btn-lg btn-success">Douban</a>
             <a href="{{ html_magnet_link }}" target="_blank" class="btn btn-lg btn-info">Magnet</a>
             <a href="{{ html_netpan_link }}" target="_blank" class="btn btn-lg btn-warning">Watch</a>
          </p>
@@ -23,59 +23,52 @@
       <div class="container">
          <div class="row">
             <div class="col-md-4">
-               <img src="{{ html_post }}" class="img-rounded img-responsive">
+               <img src="{{ peanut.post }}" class="img-rounded img-responsive">
             </div>
             <div class="col-md-4">
                <ul class="list-group">
-                  <li class="list-group-item"><span class="glyphicon glyphicon-film"></span><b>    Title</b>: {{ html_title }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-calendar"></span><b>    Year</b>: {{ html_year }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-map-marker"></span><b>    Country</b>: {{ html_country }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-tag"></span><b>    Genre</b>: {{ html_genre }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-facetime-video"></span><b>    Director</b>: {{ html_director_name }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-user"></span><b>    Casts</b>: {{ html_casts }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-star"></span><b>  Rating</b>: {{ html_rating }}</li>
-                  <li class="list-group-item"><span class="glyphicon glyphicon-copyright-mark"></span><b>  RatingCount</b>: {{ html_ratingcount }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-film"></span><b>    Title</b>: {{ peanut.zhtitle }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-calendar"></span><b>    Year</b>: {{ peanut.year }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-map-marker"></span><b>    Country</b>: {{ peanut.country }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-tag"></span><b>    Genre</b>: {{ peanut.genre }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-facetime-video"></span><b>    Director</b>: {{ peanut.director.name }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-user"></span><b>    Casts</b>: {{ peanut.casts }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-star"></span><b>  Rating</b>: {{ peanut.rating }}</li>
+                  <li class="list-group-item"><span class="glyphicon glyphicon-copyright-mark"></span><b>  RatingCount</b>: {{ peanut.ratingcount }}</li>
                </ul>
             </div>
             <div class="col-md-4">
+               {% for line in range(row) %}
                <div class="row">
+                  {% for col in range(2) %}
+                  {% if line == 0 and col == 0 %}
                   <div class="col-md-6">
                      <div class="thumbnail">
-                        <img src="{{ html_director_avatar}}" class="img-circle img-responsive">
+                        <img src="{{ peanut.director.avatar }}" class="img-circle img-responsive">
                         <div class="caption text-center">
-                           <a href="{{html_director_link }}"><h7>{{ html_director_name }}</h7></a>            
+                           <a href="{{ peanut.director.link }}">
+                              <h7>{{ peanut.director.name }}</h7>
+                           </a>
                         </div>
                      </div>
                   </div>
+                  {% endif %}
+                  {% if (line) * 2 + col + 1 < num %}
                   <div class="col-md-6">
                      <div class="thumbnail">
-                        <img src="{{ html_c1_avatar}}" class="img-circle img-responsive">
+                        <img src="{{ peanut.casts[line*2+col].avatar}}" class="img-circle img-responsive">
                         <div class="caption text-center">
-                           <a href="{{html_c1_link }}"><h7>{{ html_c1_name }}</h7></a>            
+                           <a href="{{peanut.casts[line*2+col].link }}">
+                              <h7>{{ peanut.casts[line*2+col].name }}</h7>
+                           </a>
                         </div>
                      </div>
                   </div>
+                  {% endif %}
+                  {% endfor%}
                </div>
-               <div class="row">
-                  <div class="col-md-6">
-                     <div class="thumbnail">
-                        <img src="{{ html_c2_avatar}}" class="img-circle img-responsive">
-                        <div class="caption text-center">
-                           <a href="{{html_c2_link }}"><h7>{{ html_c2_name }}</h7></a>            
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6">
-                     <div class="thumbnail">
-                        <img src="{{ html_c3_avatar}}" class="img-circle img-responsive">
-                        <div class="caption text-center">
-                           <a href="{{html_c3_link }}"><h7>{{ html_c3_name }}</h7></a>            
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               {% endfor %}
             </div>
-
          </div>
       </div>
    </body>

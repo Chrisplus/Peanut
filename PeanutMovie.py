@@ -18,7 +18,7 @@ class PeanutMovie:
 		self.summary = ""
 		self.director = None
 		self.ratingcount = ""
-
+		self.castnames = ""
 	def setratingcount(self, ct):
 		self.ratingcount = ct
 
@@ -66,7 +66,7 @@ class PeanutMovie:
 
 	def setDirector(self, director):
 		if director is None:
-			self.director = Actor({"name" : Unknown, "avatars" : {"medium" : Unknown}, "alt": Unknown})
+			self.director = Actor({"name" : Unknown, "avatars" : None,  "alt": Unknown})
 		else:
 			self.director = Actor(director)
 		# return self
@@ -81,12 +81,13 @@ class PeanutMovie:
 		# 		self.actors.append(Actor(names[i], enNames[i], avatars[i], links[i]))
 		# 		i = i + 1
 		# return self
-		if actors is None:
+		if actors is None or len(actors) == 0:
 			# ADD the anonymous avatar and link
-			self.casts.append(Actor({"name" : Unknown, "avatars" : {"medium" : Unknown}, "alt": Unknown}))
+			self.casts.append(Actor({"name" : Unknown, "avatars" : None, "alt": Unknown}))
 		else:
 			for actor in actors:
 				self.casts.append(Actor(actor))
+				self.castnames = self.castnames + "  " + actor["name"]
 
 	def build(self):
 		# ADD check procedure

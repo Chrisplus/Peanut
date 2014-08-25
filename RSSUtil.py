@@ -24,6 +24,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+
 def fetchRSS(ref, newDate):
 
 	print PEANUT_URL
@@ -117,41 +118,23 @@ def render_v2(rawTitle, maglink):
 		# self.summary = ""
 		# self.director = None
 
-	names = []
-	for actor in peanut.casts:
-		names.append(actor.name)
+
+	num = 1 + len(peanut.casts)
+
+	if num < 2:
+		row = 1
+	else:
+		row = 2
+
+	if num > 4:
+		num = 4
 
 	template_values = {
-		'html_title' : peanut.zhtitle,
-		'html_en_title' : peanut.entitle,
-		'html_summary' : peanut.summary,
-		'html_douban_link' : peanut.link,
 		'html_magnet_link' : maglink,
 		'html_netpan_link' : "#",
-		'html_year' : peanut.year,
-		'html_country' : peanut.coutry,
-		'html_genre' : peanut.genre,
-		'html_director_name' : peanut.director.name,
-		'html_casts' : ",".join(names),
-		'html_rating' : peanut.rating,
-		'html_ratingcount' : peanut.ratingcount,
-		'html_director_avatar' : peanut.director.avatar,
-		'html_director_link' : peanut.director.link,
-
-		'html_c1_avatar' : peanut.casts[0].avatar,
-		'html_c1_name' : peanut.casts[0].name,
-		'html_c1_link' : peanut.casts[0].link,
-
-		'html_c2_avatar' : peanut.casts[1].avatar,
-		'html_c2_name' : peanut.casts[1].name,
-		'html_c2_link' : peanut.casts[1].link,
-
-		'html_c3_avatar' : peanut.casts[2].avatar,
-		'html_c3_name' : peanut.casts[2].name,
-		'html_c4_link' : peanut.casts[2].link,
-
-		'html_post' : peanut.post
-
+		'peanut' : peanut,
+		'row' : row,
+		'num' : num
 	}
 
 	template = JINJA_ENVIRONMENT.get_template('detail.html')
